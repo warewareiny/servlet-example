@@ -2,7 +2,7 @@ package org.example.carrentalproject.entity;
 
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +13,6 @@ public class Admin {
     private Long idAdmin;
     private String username;
     private String password;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
 }
