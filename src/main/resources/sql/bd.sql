@@ -31,21 +31,21 @@ CREATE TABLE car (
 
 CREATE TABLE rental_request (
     id_rental_request BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_client BIGINT NOT NULL REFERENCES client(id_client) ON DELETE CASCADE,
-    id_car BIGINT NOT NULL REFERENCES car(id_car),
+    id_client BIGINT NOT NULL REFERENCES client(id) ON DELETE CASCADE,
+    id_car BIGINT NOT NULL REFERENCES car(id),
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     status request_status DEFAULT 'PENDING',
     rejection_reason TEXT,
-    processed_by BIGINT REFERENCES admin(id_admin),
+    processed_by BIGINT REFERENCES admin(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE rental_order (
     id_order BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_rental_request BIGINT UNIQUE NOT NULL REFERENCES rental_request(id_rental_request),
-    id_client BIGINT NOT NULL REFERENCES client(id_client),
-    id_car BIGINT NOT NULL REFERENCES car(id_car),
+    id_client BIGINT NOT NULL REFERENCES client(id),
+    id_car BIGINT NOT NULL REFERENCES car(id),
     total_amount NUMERIC(12,2) NOT NULL,
     status order_status DEFAULT 'NEW',
     payment_date TIMESTAMP,

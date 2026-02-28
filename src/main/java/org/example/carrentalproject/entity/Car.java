@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 public class Car {
 
-    private Long idCar;
+    private Long id;
     private String brand;
     private String model;
     private Integer productionYear;

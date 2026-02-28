@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 public class Payment {
 
-    private Long idPayment;
-    private Long idOrder;
+    private Long id;
+    private Long orderId;
     private BigDecimal amount;
     private String paymentMethod;
     private String paymentStatus;
