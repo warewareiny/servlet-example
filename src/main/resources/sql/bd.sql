@@ -54,7 +54,7 @@ CREATE TABLE rental_order (
 
 CREATE TABLE payment (
      id_payment BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-     id_order BIGINT NOT NULL REFERENCES rental_order(id_order) ON DELETE CASCADE,
+     id_order BIGINT NOT NULL REFERENCES rental_order(id) ON DELETE CASCADE,
      amount NUMERIC(12,2) NOT NULL,
      payment_method VARCHAR(50),
      payment_status VARCHAR(50) DEFAULT 'SUCCESS',
