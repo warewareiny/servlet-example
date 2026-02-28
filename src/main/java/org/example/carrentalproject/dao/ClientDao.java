@@ -7,6 +7,7 @@ import org.example.carrentalproject.util.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,8 @@ public class ClientDao implements Dao<Long, Client> {
             WHERE id = ?
             """;
     private static final String SAVE_SQL = """
-            INSERT INTO client(first_name, last_name, email, phone, passport_number)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO client(first_name, last_name, email, phone, passport_number, password)
+            VALUES (?, ?, ?, ?, ?, ?)
             RETURNING id, created_at;
             """;
     private static final String FIND_BY_EMAIL_AND_PASSWORD_SQL = """
@@ -74,6 +75,7 @@ public class ClientDao implements Dao<Long, Client> {
             ps.setString(3, entity.getEmail());
             ps.setString(4, entity.getPhone());
             ps.setString(5, entity.getPassportNumber());
+            ps.setString(6, entity.getPassword());
 
             try (ResultSet resultSet = ps.executeQuery();) {
                 if (resultSet.next()) {
@@ -102,6 +104,20 @@ public class ClientDao implements Dao<Long, Client> {
             return Optional.ofNullable(client);
             }
         }
+
+    private static Client buildEntity(ResultSet resultSet) throws SQLException {
+        Client client;
+        client = Client.builder()
+                .firstName(resultSet.getString("first_name"))
+                .lastName(resultSet.getString("last_name"))
+                .email(resultSet.getString("email"))
+                .phone(resultSet.getString("phone"))
+                .phone(resultSet.getString("passport_number"))
+                .phone(resultSet.getString("created_at"))
+                .phone(resultSet.getString("password"))
+                .build();
+
+        return client;
     }
 
     public static ClientDao getInstance() {

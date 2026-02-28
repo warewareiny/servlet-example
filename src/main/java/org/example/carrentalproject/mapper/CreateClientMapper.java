@@ -19,6 +19,7 @@ public class CreateClientMapper implements Mapper<CreateClientDto, Client> {
                 .email(object.getEmail())
                 .phone(object.getPhone())
                 .passportNumber(object.getPassportNumber())
+                .password(object.getPassword())
                 .build();
     }
 

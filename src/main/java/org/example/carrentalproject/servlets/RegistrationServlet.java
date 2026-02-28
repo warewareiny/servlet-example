@@ -24,6 +24,7 @@ public class RegistrationServlet extends HttpServlet {
                 .email(req.getParameter("email"))
                 .phone(req.getParameter("phone"))
                 .passportNumber(req.getParameter("passportNumber"))
+                .password(req.getParameter("password"))
                 .build();
 
         clientService.create(createClientDto);
