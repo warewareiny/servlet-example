@@ -43,7 +43,7 @@ CREATE TABLE rental_request (
 
 CREATE TABLE rental_order (
     id_order BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_rental_request BIGINT UNIQUE NOT NULL REFERENCES rental_request(id_rental_request),
+    id_rental_request BIGINT UNIQUE NOT NULL REFERENCES rental_request(rental_request_id),
     id_client BIGINT NOT NULL REFERENCES client(id),
     id_car BIGINT NOT NULL REFERENCES car(id),
     total_amount NUMERIC(12,2) NOT NULL,
