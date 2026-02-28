@@ -4,9 +4,12 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.example.carrentalproject.dao.ClientDao;
+import org.example.carrentalproject.dto.ClientDto;
 import org.example.carrentalproject.dto.CreateClientDto;
 import org.example.carrentalproject.entity.Client;
 import org.example.carrentalproject.mapper.CreateClientMapper;
+
+import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClientService {
@@ -26,5 +29,9 @@ public class ClientService {
         clientDao.save(clientEntity);
 
         return clientEntity.getId();
+    }
+
+    public Optional<ClientDto> login(String login, String password) {
+        return ClientDao.findBy
     }
 }

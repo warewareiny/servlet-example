@@ -7,14 +7,12 @@ import org.example.carrentalproject.util.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public class ClientDao implements Dao<Long, Client> {
 
     private static final ClientDao INSTANCE = new ClientDao();
-
 
     private static final String FIND_BY_ID_SQL = """
             SELECT id, first_name, last_name, email, phone, passport_number, created_at
@@ -36,10 +34,35 @@ public class ClientDao implements Dao<Long, Client> {
             WHERE id = ?
             """;
     private static final String SAVE_SQL = """
-                INSERT INTO client(first_name, last_name, email, phone, passport_number)
-                VALUES (?, ?, ?, ?, ?)
-                RETURNING id, created_at;
-                """;
+            INSERT INTO client(first_name, last_name, email, phone, passport_number)
+            VALUES (?, ?, ?, ?, ?)
+            RETURNING id, created_at;
+            """;
+    private static final String FIND_BY_EMAIL_AND_PASSWORD_SQL = """
+          SELECT id, first_name, last_name, email, password, phone, passport_number, created_at
+          FROM client
+          WHERE email = ? AND password = ?
+          """;
+
+    @Override
+    public List<Client> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Client> findById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return false;
+    }
+
+    @Override
+    public void update(Long id) {
+
+    }
 
     @Override
     @SneakyThrows
@@ -64,28 +87,24 @@ public class ClientDao implements Dao<Long, Client> {
 
     }
 
+    @SneakyThrows
+    public Optional<Client> findByEmailAndPassword(String email, String password) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_EMAIL_AND_PASSWORD_SQL)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet resultSet = ps.executeQuery();
+            Client client = null;
+            if (resultSet.next()) {
+                client = buildEntity(resultSet);
+            }
+            return Optional.ofNullable(client);
+            }
+        }
+    }
+
     public static ClientDao getInstance() {
         return INSTANCE;
     }
-
-    @Override
-    public List<Client> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Optional<Client> findById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return false;
-    }
-
-    @Override
-    public void update(Long id) {
-
-    }
-
 }

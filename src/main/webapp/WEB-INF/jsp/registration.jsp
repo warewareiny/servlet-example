@@ -6,20 +6,23 @@
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/registration">
-    <label for="firstNameId">
-        <input type="text" name="firstName" id="firstNameId">First name:
+    <label for="firstNameId">First name:
+        <input type="text" name="firstName" id="firstNameId">
     </label><br>
-    <label for="lastNameId">
-        <input type="text" name="lastName" id="lastNameId">Last name:
+    <label for="lastNameId">Last name:
+        <input type="text" name="lastName" id="lastNameId">
     </label><br>
-    <label for="emailId">
-        <input type="text" name="email" id="emailId">Email:
+    <label for="emailId">Email:
+        <input type="text" name="email" id="emailId">
     </label><br>
-    <label for="phoneId">
-        <input type="text" name="phone" id="phoneId">Phone:
+    <label for="passwordId">Password:
+        <input type="password" name="password" id="passwordId">
     </label><br>
-    <label for="passportNumberId">
-        <input type="text" name="passportNumber" id="passportNumberId">Passport number:
+    <label for="phoneId">Phone:
+        <input type="text" name="phone" id="phoneId">
+    </label><br>
+    <label for="passportNumberId">Passport number:
+        <input type="text" name="passportNumber" id="passportNumberId">
     </label><br>
     <button type="submit">Send</button>
 </form>

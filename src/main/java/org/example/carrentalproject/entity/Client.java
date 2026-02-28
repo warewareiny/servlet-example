@@ -17,6 +17,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String phone;
     private String passportNumber;
     private LocalDateTime createdAt;
