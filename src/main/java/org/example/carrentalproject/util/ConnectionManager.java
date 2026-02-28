@@ -1,4 +1,4 @@
-package org.course.http.util;
+package org.example.carrentalproject.util;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
