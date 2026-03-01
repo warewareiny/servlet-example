@@ -5,31 +5,32 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.car.rental.project.dto.CreateClientDto;
+import org.example.car.rental.project.dto.CreateCarDto;
 import org.example.car.rental.project.exception.ValidationException;
-import org.example.car.rental.project.service.ClientService;
+import org.example.car.rental.project.service.CarService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
-@WebServlet("/registration")
-public class RegistrationServlet extends HttpServlet {
+@WebServlet("/car-create")
+public class AddCarServlet extends HttpServlet {
 
-    private final ClientService clientService = ClientService.getInstance();
+    private final CarService carService = CarService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CreateClientDto createClientDto = CreateClientDto.builder()
-                .firstName(req.getParameter("firstName"))
-                .lastName(req.getParameter("lastName"))
-                .email(req.getParameter("email"))
-                .phone(req.getParameter("phone"))
-                .passportNumber(req.getParameter("passportNumber"))
-                .password(req.getParameter("password"))
+        CreateCarDto createCarDto = CreateCarDto.builder()
+                .brand(req.getParameter("brand"))
+                .carNumber(req.getParameter("carNumber"))
+                .model(req.getParameter("model"))
+                .pricePerDay(new BigDecimal(req.getParameter("pricePerDay")))
+                .productionYear(Integer.valueOf(req.getParameter("productionYear")))
                 .build();
 
         try {
-            clientService.create(createClientDto);
-            resp.sendRedirect("/login");
+            carService.create(createCarDto);
+            resp.sendRedirect("/cars");
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
             doGet(req, resp);
@@ -38,7 +39,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/registration.jsp")
+        req.getRequestDispatcher("/WEB-INF/jsp/car-create.jsp")
                 .forward(req, resp);
     }
 }

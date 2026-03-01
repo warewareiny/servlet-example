@@ -4,6 +4,12 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.car.rental.project.dao.CarDao;
 import org.example.car.rental.project.dto.CarDto;
+import org.example.car.rental.project.dto.CreateCarDto;
+import org.example.car.rental.project.entity.Car;
+import org.example.car.rental.project.exception.ValidationException;
+import org.example.car.rental.project.mapper.CreateCarMapper;
+import org.example.car.rental.project.validator.CreateCarValidator;
+import org.example.car.rental.project.validator.ValidationResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,9 +20,24 @@ public class CarService {
     private static final CarService INSTANCE = new CarService();
 
     private final CarDao carDao = CarDao.getInstance();
+    private final CreateCarValidator createCarValidator = CreateCarValidator.getInstance();
+    private final CreateCarMapper createCarMapper = CreateCarMapper.getInstance();
 
     public static CarService getInstance() {
         return INSTANCE;
+    }
+
+    public Long create(CreateCarDto createCarDto) {
+        ValidationResult validationResult = createCarValidator.isValid(createCarDto);
+
+        if (!validationResult.isValid()) {
+            throw new ValidationException(validationResult.getErrors());
+        }
+
+        Car carEntity = createCarMapper.mapFrom(createCarDto);
+        carDao.save(carEntity);
+
+        return carEntity.getId();
     }
 
     public List<CarDto> findAll() {

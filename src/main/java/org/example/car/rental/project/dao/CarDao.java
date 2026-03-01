@@ -1,5 +1,6 @@
 package org.example.car.rental.project.dao;
 
+import lombok.SneakyThrows;
 import org.example.car.rental.project.entity.Car;
 import org.example.car.rental.project.entity.CarStatus;
 import org.example.car.rental.project.util.ConnectionManager;
@@ -24,6 +25,36 @@ public class CarDao implements Dao<Long, Car> {
             SELECT id, brand, model, production_year, price_per_day, car_number, status
             FROM car;
             """;
+
+    private static final String SAVE_SQL = """
+            INSERT INTO car(brand, model, production_year, price_per_day, car_number)
+            VALUES (?, ?, ?, ?, ?)
+            """;
+
+    @Override
+    @SneakyThrows
+    public Car save(Car entity) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(
+                     SAVE_SQL,
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, entity.getBrand());
+            ps.setString(2, entity.getModel());
+            ps.setInt(3, entity.getProductionYear());
+            ps.setBigDecimal(4, entity.getPricePerDay());
+            ps.setString(5, entity.getCarNumber());
+
+            ps.executeUpdate();
+
+            ResultSet keys = ps.getGeneratedKeys();
+            if (keys.next()) {
+                entity.setId(keys.getLong(1));
+            }
+
+            return entity;
+        }
+    }
 
     @Override
     public List<Car> findAll() {
@@ -70,11 +101,6 @@ public class CarDao implements Dao<Long, Car> {
     @Override
     public void update(Long id) {
 
-    }
-
-    @Override
-    public Car save(Car entity) {
-        return null;
     }
 
 }
