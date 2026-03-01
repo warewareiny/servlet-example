@@ -14,6 +14,7 @@
 <p>Price per day: ${requestScope.car.pricePerDay}</p>
 <p>Status: ${requestScope.car.status}</p>
 <p>Car number: ${requestScope.car.carNumber}</p>
-
+<br>
+<a href="${pageContext.request.contextPath}/cars">Go back</a>
 </body>
 </html>
