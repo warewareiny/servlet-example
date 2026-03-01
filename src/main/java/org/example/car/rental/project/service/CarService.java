@@ -12,6 +12,7 @@ import org.example.car.rental.project.validator.CreateCarValidator;
 import org.example.car.rental.project.validator.ValidationResult;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,6 +26,19 @@ public class CarService {
 
     public static CarService getInstance() {
         return INSTANCE;
+    }
+
+    public Optional<CarDto> findById(Long id) {
+        return carDao.findById(id)
+                .map(car -> CarDto.builder()
+                        .id(car.getId())
+                        .brand(car.getBrand())
+                        .model(car.getModel())
+                        .carNumber(car.getCarNumber())
+                        .productionYear(car.getProductionYear())
+                        .pricePerDay(car.getPricePerDay())
+                        .status(car.getStatus())
+                        .build());
     }
 
     public Long create(CreateCarDto createCarDto) {

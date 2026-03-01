@@ -31,6 +31,29 @@ public class CarDao implements Dao<Long, Car> {
             VALUES (?, ?, ?, ?, ?)
             """;
 
+    private static final String FIND_BY_ID_SQL = """
+            SELECT id, brand, model, production_year, price_per_day, car_number, status
+            FROM car 
+            WHERE id = ?
+            """;
+
+    @Override
+    @SneakyThrows
+    public Optional<Car> findById(Long id) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
+            ps.setLong(1, id);
+
+            ResultSet resultSet = ps.executeQuery();
+            Car car = null;
+            if (resultSet.next()) {
+                car = buildCar(resultSet);
+            }
+
+            return Optional.ofNullable(car);
+        }
+    }
+
     @Override
     @SneakyThrows
     public Car save(Car entity) {
@@ -86,11 +109,6 @@ public class CarDao implements Dao<Long, Car> {
                 .build();
 
         return car;
-    }
-
-    @Override
-    public Optional<Car> findById(Long id) {
-        return Optional.empty();
     }
 
     @Override
