@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>CarRentalService</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<h1>Welcome to Car Rental Service! Please, login:</h1><br>
+<a href="/registration">Registration</a><br>
+<a href="/login">Login</a><br>
 </body>
 </html>
