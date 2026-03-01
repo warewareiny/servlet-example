@@ -13,6 +13,11 @@
         <input type="password" id="passwordId" name="password">
     </label>
     <button type="submit">Login</button>
+    <c:if test="${param.error != null}">
+        <div style="color: red">
+            <span>${error.message}</span>
+        </div>
+    </c:if>
 </form>
 </body>
 </html>
