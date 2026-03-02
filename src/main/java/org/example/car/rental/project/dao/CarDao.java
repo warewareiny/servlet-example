@@ -49,6 +49,34 @@ public class CarDao implements Dao<Long, Car> {
             WHERE id = ?
             """;
 
+    private static final String UPDATE_SQL = """
+            UPDATE car
+            SET brand = ?,
+                model = ?,
+                production_year = ?,
+               price_per_day = ?,
+               car_number = ?
+            WHERE id = ?
+            """;
+
+    @Override
+    @SneakyThrows
+    public boolean update(Car entity) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
+            ps.setString(1, entity.getBrand());
+            ps.setString(2, entity.getModel());
+            ps.setLong(3, entity.getProductionYear());
+            ps.setBigDecimal(4, entity.getPricePerDay());
+            ps.setString(5, entity.getCarNumber());
+            ps.setLong(6, entity.getId());
+
+            int i = ps.executeUpdate();
+
+            return i > 0;
+        }
+    }
+
     @SneakyThrows
     public void updateStatus(Long carId, CarStatus carStatus) {
         try (Connection connection = ConnectionManager.get();
@@ -143,7 +171,4 @@ public class CarDao implements Dao<Long, Car> {
 
         return car;
     }
-
-    @Override
-    public void update(Long id) {}
 }

@@ -23,4 +23,6 @@ public class ClientMapper implements Mapper<Client, ClientDto> {
                 .createdAt(client.getCreatedAt())
                 .build();
     }
+
+    private ClientMapper() {}
 }

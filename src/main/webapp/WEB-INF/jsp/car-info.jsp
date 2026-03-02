@@ -44,13 +44,17 @@
     <c:when test="${requestScope.car.status == 'BROKEN'}">
         <form action="${pageContext.request.contextPath}/cars/fix" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
-            <button type="submit">Починить машину</button>
+            <button type="submit">Fix car</button>
         </form>
     </c:when>
 </c:choose>
 <form action="${pageContext.request.contextPath}/cars/delete" method="post">
     <input type="hidden" name="carId" value="${requestScope.car.id}">
-    <button type="submit">Delete</button>
+    <button type="submit">Delete car</button>
+</form>
+<form action="${pageContext.request.contextPath}/cars/update" method="get">
+    <input type="hidden" name="carId" value="${requestScope.car.id}">
+    <button type="submit">Update car</button>
 </form>
 <br>
 <a href="${pageContext.request.contextPath}/cars">Go back</a>

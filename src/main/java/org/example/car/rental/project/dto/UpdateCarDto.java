@@ -7,11 +7,13 @@ import java.math.BigDecimal;
 
 @Value
 @Builder
-public class CreateCarDto {
+public class UpdateCarDto {
 
+    Long id;
     String brand;
     String model;
     Integer productionYear;
     BigDecimal pricePerDay;
     String carNumber;
+
 }

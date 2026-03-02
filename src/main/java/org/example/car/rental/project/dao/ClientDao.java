@@ -1,6 +1,7 @@
 package org.example.car.rental.project.dao;
 
 import lombok.SneakyThrows;
+import org.example.car.rental.project.entity.Car;
 import org.example.car.rental.project.entity.Client;
 import org.example.car.rental.project.util.ConnectionManager;
 
@@ -61,8 +62,8 @@ public class ClientDao implements Dao<Long, Client> {
     }
 
     @Override
-    public void update(Long id) {
-
+    public boolean update(Client entity) {
+        return false;
     }
 
     @Override

@@ -21,4 +21,6 @@ public class CreateCarMapper implements Mapper<CreateCarDto, Car> {
                 .carNumber(object.getCarNumber())
                 .build();
     }
+
+    private CreateCarMapper() {}
 }

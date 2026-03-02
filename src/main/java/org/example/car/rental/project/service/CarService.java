@@ -5,10 +5,12 @@ import lombok.NoArgsConstructor;
 import org.example.car.rental.project.dao.CarDao;
 import org.example.car.rental.project.dto.CarDto;
 import org.example.car.rental.project.dto.CreateCarDto;
+import org.example.car.rental.project.dto.UpdateCarDto;
 import org.example.car.rental.project.entity.Car;
 import org.example.car.rental.project.entity.CarStatus;
 import org.example.car.rental.project.exception.ValidationException;
 import org.example.car.rental.project.mapper.CreateCarMapper;
+import org.example.car.rental.project.mapper.UpdateCarMapper;
 import org.example.car.rental.project.validator.CreateCarValidator;
 import org.example.car.rental.project.validator.ValidationResult;
 
@@ -24,9 +26,17 @@ public class CarService {
     private final CarDao carDao = CarDao.getInstance();
     private final CreateCarValidator createCarValidator = CreateCarValidator.getInstance();
     private final CreateCarMapper createCarMapper = CreateCarMapper.getInstance();
+    private final UpdateCarMapper updateCarMapper = UpdateCarMapper.getInstance();
 
     public static CarService getInstance() {
         return INSTANCE;
+    }
+
+    public String updateCar(UpdateCarDto entity) {
+        Car carEntity = updateCarMapper.mapFrom(entity);
+
+        boolean updated = carDao.update(carEntity);
+        return updated ? "SUCCESS" : "FAIL";
     }
 
     public String deleteCar(Long carId) {
