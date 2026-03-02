@@ -50,26 +50,31 @@ public class CarService {
     public String unbookCar(Long carId) {
         Optional<Car> carOptional = carDao.findById(carId);
 
-        if (carOptional.isEmpty()) {
+        if (carOptional.isEmpty())
             return "Car not found";
-        }
 
         Car car = carOptional.get();
 
-        if (car.getStatus() == CarStatus.AVAILABLE) {
+        if (car.getStatus() != CarStatus.RENTED)
             return "Car is not rented";
-        }
 
-        if (car.getStatus() == CarStatus.BROKEN) {
-            return "Car is broken";
-        }
+        carDao.updateStatus(carId, CarStatus.AVAILABLE);
+        return "SUCCESS";
+    }
 
-        if (car.getStatus() == CarStatus.RENTED) {
-            carDao.updateStatus(carId, CarStatus.AVAILABLE);
-            return "SUCCESS";
-        }
+    public String brokeCar(Long carId) {
+        Optional<Car> carOptional = carDao.findById(carId);
 
-        return "Cannot unbook this car";
+        if (carOptional.isEmpty())
+            return "Car not found";
+
+        Car car = carOptional.get();
+
+        if (car.getStatus() == CarStatus.BROKEN)
+            return "Car is already broken";
+
+        carDao.updateStatus(carId, CarStatus.BROKEN);
+        return "SUCCESS";
     }
 
     public String fixCar(Long carId) {

@@ -17,14 +17,11 @@ public class UnbookCarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long carId = Long.valueOf(req.getParameter("carId"));
+        String result = carService.unbookCar(carId);
 
-        String success = carService.unbookCar(carId);
-
-        req.setAttribute("successUnbook", success);
-
+        req.setAttribute("unbookResult", result);
         req.getRequestDispatcher("/WEB-INF/jsp/unbook-result.jsp")
                 .forward(req, resp);
-
     }
 
     @Override

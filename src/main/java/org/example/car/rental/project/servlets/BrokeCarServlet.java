@@ -9,24 +9,24 @@ import org.example.car.rental.project.service.CarService;
 
 import java.io.IOException;
 
-@WebServlet("/cars/fix")
-public class FixCarServlet extends HttpServlet {
+@WebServlet("/cars/broke")
+public class BrokeCarServlet extends HttpServlet {
 
     private final CarService carService = CarService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long carId = Long.valueOf(req.getParameter("carId"));
-        String result = carService.fixCar(carId);
+        String result = carService.brokeCar(carId);
 
-        req.setAttribute("fixResult", result);
-        req.getRequestDispatcher("/WEB-INF/jsp/fix-result.jsp")
+        req.setAttribute("brokeResult", result);
+        req.getRequestDispatcher("/WEB-INF/jsp/broke-result.jsp")
                 .forward(req, resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/fix-result.jsp")
+        req.getRequestDispatcher("/WEB-INF/jsp/broke-result.jsp")
                 .forward(req, resp);
     }
 }

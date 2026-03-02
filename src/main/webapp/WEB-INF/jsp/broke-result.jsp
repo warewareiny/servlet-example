@@ -2,16 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Book Result</title>
+    <title>Broke Result</title>
 </head>
 <body>
 
 <c:choose>
-    <c:when test="${bookResult == 'SUCCESS'}">
-        <p style="color: green">You have successfully booked the car</p>
+    <c:when test="${brokeResult == 'SUCCESS'}">
+        <p style="color: green">You have successfully marked the car as broken</p>
     </c:when>
     <c:otherwise>
-        <p style="color: red">You couldn't book this car: ${bookResult}</p>
+        <p style="color: red">You couldn't mark this car as broken: ${brokeResult}</p>
     </c:otherwise>
 </c:choose>
 

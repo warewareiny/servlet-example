@@ -15,20 +15,32 @@
 <p>Status: ${requestScope.car.status}</p>
 <p>Car number: ${requestScope.car.carNumber}</p>
 <br>
+
 <c:choose>
     <c:when test="${requestScope.car.status == 'AVAILABLE'}">
         <form action="${pageContext.request.contextPath}/cars/book" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
             <button type="submit">Забронировать</button>
         </form>
+
+        <form action="${pageContext.request.contextPath}/cars/broke" method="post">
+            <input type="hidden" name="carId" value="${requestScope.car.id}">
+            <button type="submit">Сломать</button>
+        </form>
     </c:when>
+
     <c:when test="${requestScope.car.status == 'RENTED'}">
-        <p>Машина уже арендована</p>
         <form action="${pageContext.request.contextPath}/cars/unbook" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
             <button type="submit">Вернуть машину</button>
         </form>
+
+        <form action="${pageContext.request.contextPath}/cars/broke" method="post">
+            <input type="hidden" name="carId" value="${requestScope.car.id}">
+            <button type="submit">Сломать</button>
+        </form>
     </c:when>
+
     <c:when test="${requestScope.car.status == 'BROKEN'}">
         <form action="${pageContext.request.contextPath}/cars/fix" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
@@ -36,7 +48,9 @@
         </form>
     </c:when>
 </c:choose>
+
 <br>
 <a href="${pageContext.request.contextPath}/cars">Go back</a>
+
 </body>
 </html>

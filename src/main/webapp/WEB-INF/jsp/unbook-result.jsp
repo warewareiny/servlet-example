@@ -1,25 +1,21 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Unbook the car</title>
+    <title>Unbook Result</title>
 </head>
 <body>
 
 <c:choose>
-    <c:when test="${successUnbook == 'SUCCESS'}">
-        <div style="color: green">
-            <p>You have successfully unbooked a car</p>
-        </div>
+    <c:when test="${unbookResult == 'SUCCESS'}">
+        <p style="color: green">You have successfully returned the car</p>
     </c:when>
     <c:otherwise>
-        <div style="color: red">
-            <p>You couldn't unbook this car</p>
-        </div>
+        <p style="color: red">You couldn't return this car: ${unbookResult}</p>
     </c:otherwise>
 </c:choose>
-<br>
-<a href="${pageContext.request.contextPath}/cars">Go back</a>
+
+<a href="${pageContext.request.contextPath}/cars">Back</a>
+
 </body>
 </html>
