@@ -40,12 +40,36 @@ public class CarService {
         if (car.getStatus() == CarStatus.RENTED)
             return "Car is already rented";
 
-
         if (car.getStatus() == CarStatus.BROKEN)
             return "Car is broken";
 
         carDao.updateStatus(carId, CarStatus.RENTED);
         return "SUCCESS";
+    }
+
+    public String unbookCar(Long carId) {
+        Optional<Car> carOptional = carDao.findById(carId);
+
+        if (carOptional.isEmpty()) {
+            return "Car not found";
+        }
+
+        Car car = carOptional.get();
+
+        if (car.getStatus() == CarStatus.AVAILABLE) {
+            return "Car is not rented";
+        }
+
+        if (car.getStatus() == CarStatus.BROKEN) {
+            return "Car is broken";
+        }
+
+        if (car.getStatus() == CarStatus.RENTED) {
+            carDao.updateStatus(carId, CarStatus.AVAILABLE);
+            return "SUCCESS";
+        }
+
+        return "Cannot unbook this car";
     }
 
     public String fixCar(Long carId) {

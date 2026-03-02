@@ -24,6 +24,10 @@
     </c:when>
     <c:when test="${requestScope.car.status == 'RENTED'}">
         <p>Машина уже арендована</p>
+        <form action="${pageContext.request.contextPath}/cars/unbook" method="post">
+            <input type="hidden" name="carId" value="${requestScope.car.id}">
+            <button type="submit">Вернуть машину</button>
+        </form>
     </c:when>
     <c:when test="${requestScope.car.status == 'BROKEN'}">
         <form action="${pageContext.request.contextPath}/cars/fix" method="post">
