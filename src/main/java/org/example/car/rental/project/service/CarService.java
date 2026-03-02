@@ -6,6 +6,7 @@ import org.example.car.rental.project.dao.CarDao;
 import org.example.car.rental.project.dto.CarDto;
 import org.example.car.rental.project.dto.CreateCarDto;
 import org.example.car.rental.project.entity.Car;
+import org.example.car.rental.project.entity.CarStatus;
 import org.example.car.rental.project.exception.ValidationException;
 import org.example.car.rental.project.mapper.CreateCarMapper;
 import org.example.car.rental.project.validator.CreateCarValidator;
@@ -26,6 +27,27 @@ public class CarService {
 
     public static CarService getInstance() {
         return INSTANCE;
+    }
+
+    public String bookCar(Long carId) {
+        Optional<Car> carOptional = carDao.findById(carId);
+
+        if (carOptional.isEmpty()) {
+            return "Car not found";
+        }
+
+        Car car = carOptional.get();
+
+        if (car.getStatus() == CarStatus.RENTED) {
+            return "Car is already rented";
+        }
+
+        if (car.getStatus() == CarStatus.BROKEN) {
+            return "Car is broken";
+        }
+
+        carDao.updateStatus(carId, CarStatus.RENTED);
+        return "SUCCESS";
     }
 
     public Optional<CarDto> findById(Long id) {

@@ -7,7 +7,7 @@
     <body>
     <h1>All cars:</h1>
 
-    <c:forEach var="car" items="${requestScope.cars}">
+    <c:forEach var="car" items="${requestScope.cars}">1
         <li>
             <a href="${pageContext.request.contextPath}/cars/info?carId=${car.id}">
                 ${car.id} - ${car.status}

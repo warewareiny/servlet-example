@@ -37,6 +37,23 @@ public class CarDao implements Dao<Long, Car> {
             WHERE id = ?
             """;
 
+    private static final String UPDATE_STATUS_BY_ID_SQL = """
+            UPDATE car
+            SET status = ?::car_status
+            WHERE id = ?;
+            """;
+
+    @SneakyThrows
+    public void updateStatus(Long carId, CarStatus carStatus) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_BY_ID_SQL)) {
+            ps.setString(1, carStatus.name());
+            ps.setLong(2, carId);
+
+            ps.executeUpdate();
+        }
+    }
+
     @Override
     @SneakyThrows
     public Optional<Car> findById(Long id) {
@@ -120,5 +137,4 @@ public class CarDao implements Dao<Long, Car> {
     public void update(Long id) {
 
     }
-
 }
