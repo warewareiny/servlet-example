@@ -20,10 +20,9 @@ public class BookCarServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Long carId = Long.valueOf(req.getParameter("carId"));
-
         String success = carService.bookCar(carId);
 
-        req.setAttribute("success", success);
+        req.setAttribute("successBook", success);
 
         req.getRequestDispatcher("/WEB-INF/jsp/book-result.jsp")
                 .forward(req, resp);

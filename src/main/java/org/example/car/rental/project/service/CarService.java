@@ -32,21 +32,34 @@ public class CarService {
     public String bookCar(Long carId) {
         Optional<Car> carOptional = carDao.findById(carId);
 
-        if (carOptional.isEmpty()) {
+        if (carOptional.isEmpty())
             return "Car not found";
-        }
 
         Car car = carOptional.get();
 
-        if (car.getStatus() == CarStatus.RENTED) {
+        if (car.getStatus() == CarStatus.RENTED)
             return "Car is already rented";
-        }
 
-        if (car.getStatus() == CarStatus.BROKEN) {
+
+        if (car.getStatus() == CarStatus.BROKEN)
             return "Car is broken";
-        }
 
         carDao.updateStatus(carId, CarStatus.RENTED);
+        return "SUCCESS";
+    }
+
+    public String fixCar(Long carId) {
+        Optional<Car> carOptional = carDao.findById(carId);
+
+        if (carOptional.isEmpty())
+            return "Car not found";
+
+        Car car = carOptional.get();
+
+        if (car.getStatus().name().equals("BROKEN")) {
+            carDao.updateStatus(carId, CarStatus.AVAILABLE);
+        }
+
         return "SUCCESS";
     }
 
