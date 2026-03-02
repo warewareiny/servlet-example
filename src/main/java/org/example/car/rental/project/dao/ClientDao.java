@@ -112,9 +112,9 @@ public class ClientDao implements Dao<Long, Client> {
                 .lastName(resultSet.getString("last_name"))
                 .email(resultSet.getString("email"))
                 .phone(resultSet.getString("phone"))
-                .phone(resultSet.getString("passport_number"))
-                .phone(resultSet.getString("created_at"))
-                .phone(resultSet.getString("password"))
+                .passportNumber(resultSet.getString("passport_number"))
+                .createdAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+                .password(resultSet.getString("password"))
                 .build();
 
         return client;
