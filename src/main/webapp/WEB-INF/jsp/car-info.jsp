@@ -48,9 +48,12 @@
         </form>
     </c:when>
 </c:choose>
-
+<form action="${pageContext.request.contextPath}/cars/delete" method="post">
+    <input type="hidden" name="carId" value="${requestScope.car.id}">
+    <button type="submit">Delete</button>
+</form>
 <br>
 <a href="${pageContext.request.contextPath}/cars">Go back</a>
-
+<br>
 </body>
 </html>

@@ -29,6 +29,11 @@ public class CarService {
         return INSTANCE;
     }
 
+    public String deleteCar(Long carId) {
+        boolean deleted = carDao.delete(carId);
+        return deleted ? "SUCCESS" : "FAIL";
+    }
+
     public String bookCar(Long carId) {
         Optional<Car> carOptional = carDao.findById(carId);
 

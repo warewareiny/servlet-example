@@ -116,7 +116,6 @@ public class ClientDao implements Dao<Long, Client> {
                 .createdAt(resultSet.getTimestamp("created_at").toLocalDateTime())
                 .password(resultSet.getString("password"))
                 .build();
-
         return client;
     }
 

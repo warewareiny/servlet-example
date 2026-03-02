@@ -43,6 +43,12 @@ public class CarDao implements Dao<Long, Car> {
             WHERE id = ?;
             """;
 
+    private static final String DELETE_SQL = """
+            DELETE
+            FROM car
+            WHERE id = ?
+            """;
+
     @SneakyThrows
     public void updateStatus(Long carId, CarStatus carStatus) {
         try (Connection connection = ConnectionManager.get();
@@ -114,6 +120,16 @@ public class CarDao implements Dao<Long, Car> {
         }
     }
 
+    @Override
+    @SneakyThrows
+    public boolean delete(Long id) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+            ps.setLong(1, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     private static Car buildCar(ResultSet resultSet) throws SQLException {
         Car car = Car.builder()
                 .id(resultSet.getLong("id"))
@@ -129,12 +145,5 @@ public class CarDao implements Dao<Long, Car> {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
-    }
-
-    @Override
-    public void update(Long id) {
-
-    }
+    public void update(Long id) {}
 }
