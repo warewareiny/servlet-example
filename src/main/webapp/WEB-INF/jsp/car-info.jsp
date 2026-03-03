@@ -20,19 +20,19 @@
     <c:when test="${requestScope.car.status == 'AVAILABLE'}">
         <form action="${pageContext.request.contextPath}/cars/book" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
-            <button type="submit">Забронировать</button>
+            <button type="submit">Rent the car</button>
         </form>
 
         <form action="${pageContext.request.contextPath}/cars/broke" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
-            <button type="submit">Сломать</button>
+            <button type="submit">Fix car</button>
         </form>
     </c:when>
 
     <c:when test="${requestScope.car.status == 'RENTED'}">
         <form action="${pageContext.request.contextPath}/cars/unbook" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
-            <button type="submit">Вернуть машину</button>
+            <button type="submit">Return the car</button>
         </form>
 
         <form action="${pageContext.request.contextPath}/cars/broke" method="post">
