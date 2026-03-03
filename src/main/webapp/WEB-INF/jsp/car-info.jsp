@@ -37,7 +37,7 @@
 
         <form action="${pageContext.request.contextPath}/cars/broke" method="post">
             <input type="hidden" name="carId" value="${requestScope.car.id}">
-            <button type="submit">Сломать</button>
+            <button type="submit">Broke the car</button>
         </form>
     </c:when>
 

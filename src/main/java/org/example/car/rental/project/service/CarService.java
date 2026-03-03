@@ -2,6 +2,7 @@ package org.example.car.rental.project.service;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.example.car.rental.project.dao.CarDao;
 import org.example.car.rental.project.dto.CarDto;
 import org.example.car.rental.project.dto.CreateCarDto;
@@ -12,6 +13,7 @@ import org.example.car.rental.project.exception.ValidationException;
 import org.example.car.rental.project.mapper.CreateCarMapper;
 import org.example.car.rental.project.mapper.UpdateCarMapper;
 import org.example.car.rental.project.validator.CreateCarValidator;
+import org.example.car.rental.project.validator.UpdateCarValidator;
 import org.example.car.rental.project.validator.ValidationResult;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class CarService {
 
     private final CarDao carDao = CarDao.getInstance();
     private final CreateCarValidator createCarValidator = CreateCarValidator.getInstance();
+    private final UpdateCarValidator updateCarValidator = UpdateCarValidator.getInstance();
     private final CreateCarMapper createCarMapper = CreateCarMapper.getInstance();
     private final UpdateCarMapper updateCarMapper = UpdateCarMapper.getInstance();
 
@@ -32,9 +35,27 @@ public class CarService {
         return INSTANCE;
     }
 
-    public String updateCar(UpdateCarDto entity) {
-        Car carEntity = updateCarMapper.mapFrom(entity);
+    public Long create(CreateCarDto createCarDto) {
+        ValidationResult validationResult = createCarValidator.isValid(createCarDto);
 
+        if (!validationResult.isValid()) {
+            throw new ValidationException(validationResult.getErrors());
+        }
+
+        Car carEntity = createCarMapper.mapFrom(createCarDto);
+        carDao.save(carEntity);
+
+        return carEntity.getId();
+    }
+
+    public String updateCar(UpdateCarDto updateCarDto) {
+        ValidationResult validationResult = updateCarValidator.isValid(updateCarDto);
+
+        if (!validationResult.isValid()) {
+            throw new ValidationException(validationResult.getErrors());
+        }
+
+        Car carEntity = updateCarMapper.mapFrom(updateCarDto);
         boolean updated = carDao.update(carEntity);
         return updated ? "SUCCESS" : "FAIL";
     }
@@ -118,19 +139,6 @@ public class CarService {
                         .pricePerDay(car.getPricePerDay())
                         .status(car.getStatus())
                         .build());
-    }
-
-    public Long create(CreateCarDto createCarDto) {
-        ValidationResult validationResult = createCarValidator.isValid(createCarDto);
-
-        if (!validationResult.isValid()) {
-            throw new ValidationException(validationResult.getErrors());
-        }
-
-        Car carEntity = createCarMapper.mapFrom(createCarDto);
-        carDao.save(carEntity);
-
-        return carEntity.getId();
     }
 
     public List<CarDto> findAll() {

@@ -1,19 +1,19 @@
 package org.example.car.rental.project.validator;
 
-import org.example.car.rental.project.dto.CreateCarDto;
+import org.example.car.rental.project.dto.UpdateCarDto;
 
 import java.math.BigDecimal;
 
-public class CreateCarValidator implements Validator<CreateCarDto> {
+public class UpdateCarValidator implements Validator<UpdateCarDto> {
 
-    private static final CreateCarValidator INSTANCE = new CreateCarValidator();
+    private static final UpdateCarValidator INSTANCE = new UpdateCarValidator();
 
-    public static CreateCarValidator getInstance() {
+    public static UpdateCarValidator getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public ValidationResult isValid(CreateCarDto object) {
+    public ValidationResult isValid(UpdateCarDto object) {
         ValidationResult validationResult = new ValidationResult();
 
         if (object.getBrand() == null || object.getBrand().isEmpty()) {
@@ -24,14 +24,20 @@ public class CreateCarValidator implements Validator<CreateCarDto> {
             validationResult.add(Error.of("invalid.model", "Model is invalid"));
         }
 
-        if (object.getProductionYear() == null || object.getProductionYear() < 1900
-            || object.getProductionYear() > 2026) {
+        if (object.getProductionYear() == null || object.getProductionYear().isEmpty()) {
             validationResult.add(Error.of("invalid.production.year", "Production year is invalid"));
         }
 
-        if (object.getPricePerDay() == null || object.getPricePerDay().compareTo(BigDecimal.ZERO) < 0) {
-            validationResult.add(Error.of("invalid.price", "Price per day is incorrect"));
+        BigDecimal price = null;
+        try {
+            price = new BigDecimal(object.getPricePerDay());
+            if (price.compareTo(BigDecimal.ZERO) < 0) {
+                validationResult.add(Error.of("invalid.price", "Price must be positive"));
+            }
+        } catch (Exception e) {
+            validationResult.add(Error.of("invalid.price", "Price must be a number"));
         }
+
 
         if (object.getCarNumber() == null) {
             validationResult.add(Error.of("invalid.car.number", "Car number is incorrect"));
@@ -40,5 +46,5 @@ public class CreateCarValidator implements Validator<CreateCarDto> {
         return validationResult;
     }
 
-    private CreateCarValidator() {}
+    private UpdateCarValidator() {}
 }
