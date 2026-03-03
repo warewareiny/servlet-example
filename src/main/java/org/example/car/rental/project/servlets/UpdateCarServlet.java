@@ -38,8 +38,7 @@ public class UpdateCarServlet extends HttpServlet {
             req.setAttribute("car", updateCarDto);
         }
 
-        req.getRequestDispatcher("/WEB-INF/jsp/car-update.jsp")
-                .forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/cars/info?carId=" + updateCarDto.getId());
     }
 
     @Override
