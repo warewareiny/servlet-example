@@ -20,10 +20,10 @@ public class UpdateCarMapper implements Mapper<UpdateCarDto, Car> {
         return Car.builder()
                 .id(object.getId())
                 .brand(object.getBrand())
-                .pricePerDay(BigDecimal.valueOf(Integer.parseInt(object.getPricePerDay())))
+                .pricePerDay(new BigDecimal(object.getPricePerDay()))
                 .model(object.getModel())
                 .carNumber(object.getCarNumber())
-                .productionYear(Integer.valueOf(object.getProductionYear()))
+                .productionYear(Integer.parseInt(object.getProductionYear()))
                 .build();
     }
 }
