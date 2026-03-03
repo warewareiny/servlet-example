@@ -32,7 +32,6 @@ public class UpdateCarServlet extends HttpServlet {
         try {
             String result = carService.updateCar(updateCarDto);
             req.setAttribute("updateResult", result);
-
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
             req.setAttribute("car", updateCarDto);
