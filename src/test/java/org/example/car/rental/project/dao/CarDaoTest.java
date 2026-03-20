@@ -1,7 +1,12 @@
 package org.example.car.rental.project.dao;
 
+import org.example.car.rental.project.util.ConnectionManager;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CarDaoTest {
 
