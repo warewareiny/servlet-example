@@ -5,10 +5,7 @@ import org.example.car.rental.project.entity.Car;
 import org.example.car.rental.project.entity.Client;
 import org.example.car.rental.project.util.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +35,6 @@ public class ClientDao implements Dao<Long, Client> {
     private static final String SAVE_SQL = """
             INSERT INTO client(first_name, last_name, email, phone, passport_number, password)
             VALUES (?, ?, ?, ?, ?, ?)
-            RETURNING id, created_at;
             """;
     private static final String FIND_BY_EMAIL_AND_PASSWORD_SQL = """
           SELECT id, first_name, last_name, email, password, phone, passport_number, created_at
@@ -70,7 +66,10 @@ public class ClientDao implements Dao<Long, Client> {
     @SneakyThrows
     public Client save(Client entity) {
         try (Connection connection = ConnectionManager.get();
-             PreparedStatement ps = connection.prepareStatement(SAVE_SQL)) {
+             PreparedStatement ps = connection.prepareStatement(
+                     SAVE_SQL,
+                     Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, entity.getFirstName());
             ps.setString(2, entity.getLastName());
             ps.setString(3, entity.getEmail());
@@ -78,16 +77,16 @@ public class ClientDao implements Dao<Long, Client> {
             ps.setString(5, entity.getPassportNumber());
             ps.setString(6, entity.getPassword());
 
-            try (ResultSet resultSet = ps.executeQuery();) {
-                if (resultSet.next()) {
-                    entity.setId(resultSet.getLong("id"));
-                    entity.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+            ps.executeUpdate();
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    entity.setId(keys.getLong(1));
                 }
             }
 
             return entity;
         }
-
     }
 
     @SneakyThrows
@@ -109,6 +108,7 @@ public class ClientDao implements Dao<Long, Client> {
     private static Client buildEntity(ResultSet resultSet) throws SQLException {
         Client client;
         client = Client.builder()
+                .id(resultSet.getLong("id"))
                 .firstName(resultSet.getString("first_name"))
                 .lastName(resultSet.getString("last_name"))
                 .email(resultSet.getString("email"))

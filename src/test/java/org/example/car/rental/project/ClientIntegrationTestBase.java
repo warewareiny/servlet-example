@@ -11,7 +11,7 @@ public abstract class ClientIntegrationTestBase {
     private static final String CREATE_SQL = """
             CREATE TABLE IF NOT EXISTS client
             (
-                id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                id BIGSERIAL PRIMARY KEY,
                 first_name VARCHAR(64),
                 last_name VARCHAR(64),
                 email VARCHAR(64) NOT NULL UNIQUE,
