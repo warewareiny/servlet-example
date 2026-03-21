@@ -1,10 +1,13 @@
 package org.example.car.rental.project.dao;
 
 import org.example.car.rental.project.CarIntegrationTestBase;
+import org.example.car.rental.project.entity.Car;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CarDaoTest extends CarIntegrationTestBase {
 
@@ -19,13 +22,18 @@ public class CarDaoTest extends CarIntegrationTestBase {
     @Test
     @Tag("delete")
     void shouldReturnFalseIfDeleteCarWithIncorrectId() {
-//        todo
+        assertThat(carDao.delete(666L)).isFalse();
     }
 
     @Test
     @Tag("findAll")
     void shouldReturnAllCars() {
-//        todo
+        List<Car> allCars = carDao.findAll();
+
+        assertThat(allCars).isNotNull()
+                .hasSize(3)
+                .extracting(Car::getBrand)
+                .containsExactly("Toyota", "BMW", "Audi");
     }
 
     @Test
