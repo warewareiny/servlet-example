@@ -33,8 +33,8 @@ public class ClientDao implements Dao<Long, Client> {
             WHERE id = ?
             """;
     private static final String SAVE_SQL = """
-            INSERT INTO client(first_name, last_name, email, phone, passport_number, password)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO client(first_name, last_name, email, phone, passport_number, password, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
     private static final String FIND_BY_EMAIL_AND_PASSWORD_SQL = """
           SELECT id, first_name, last_name, email, password, phone, passport_number, created_at
@@ -76,6 +76,7 @@ public class ClientDao implements Dao<Long, Client> {
             ps.setString(4, entity.getPhone());
             ps.setString(5, entity.getPassportNumber());
             ps.setString(6, entity.getPassword());
+            ps.setTimestamp(7, Timestamp.valueOf(entity.getCreatedAt()));
 
             ps.executeUpdate();
 

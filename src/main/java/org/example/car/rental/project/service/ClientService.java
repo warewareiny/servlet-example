@@ -13,6 +13,7 @@ import org.example.car.rental.project.mapper.ClientMapper;
 import org.example.car.rental.project.validator.CreateClientValidator;
 import org.example.car.rental.project.validator.ValidationResult;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -38,6 +39,7 @@ public class ClientService {
         }
 
         Client clientEntity = createClientMapper.mapFrom(clientDto);
+        clientEntity.setCreatedAt(LocalDateTime.now());
         clientDao.save(clientEntity);
 
         return clientEntity.getId();

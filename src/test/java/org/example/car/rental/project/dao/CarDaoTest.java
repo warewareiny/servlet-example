@@ -76,7 +76,7 @@ public class CarDaoTest extends CarIntegrationTestBase {
 
     @Test
     @Tag("update")
-    void ,() {
+    void shouldReturnTrueIfUpdateExistingCar() {
         Car savedCar = carDao.save(VALID_CAR);
 
         savedCar.setBrand("BMW");
