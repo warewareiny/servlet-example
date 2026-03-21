@@ -2,11 +2,14 @@ package org.example.car.rental.project.dao;
 
 import org.example.car.rental.project.CarIntegrationTestBase;
 import org.example.car.rental.project.entity.Car;
+import org.example.car.rental.project.entity.CarStatus;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.car.rental.project.testdata.CarTestData.VALID_CAR;
 
@@ -39,7 +42,7 @@ public class CarDaoTest extends CarIntegrationTestBase {
 
     @Test
     @Tag("save")
-    void shouldSaveCar() {
+    void shouldSaveValidCar() {
         Car savedCar = carDao.save(VALID_CAR);
         assertThat(savedCar).isNotNull();
         assertThat(savedCar).extracting(Car::getBrand, Car::getProductionYear, Car::getModel)
@@ -49,19 +52,26 @@ public class CarDaoTest extends CarIntegrationTestBase {
     @Test
     @Tag("findById")
     void shouldFindByIdExistingCar() {
-//        todo
+        Optional<Car> car = carDao.findById(3L);
+        assertThat(car).isNotNull().get().extracting(Car::getBrand, Car::getProductionYear, Car::getModel)
+                .containsExactly("Audi", 2019, "A6");
     }
 
     @Test
     @Tag("findById")
     void shouldReturnEmptyOptionalIfFindByIdIncorrectCar() {
-//        todo
+        Optional<Car> car = carDao.findById(30000L);
+        assertThat(car).isEmpty();
     }
 
     @Test
-    @Tag("findById")
+    @Tag("updateStatus")
     void shouldUpdateStatus() {
-//        todo
+        carDao.updateStatus(3L, CarStatus.AVAILABLE);
+        assertThat(carDao.findById(3L)).isPresent()
+                .get()
+                .extracting(Car::getStatus)
+                .isEqualTo(CarStatus.AVAILABLE);
     }
 
     @Test

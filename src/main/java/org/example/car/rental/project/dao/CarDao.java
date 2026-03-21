@@ -39,7 +39,7 @@ public class CarDao implements Dao<Long, Car> {
 
     private static final String UPDATE_STATUS_BY_ID_SQL = """
             UPDATE car
-            SET status = ?::car_status
+            SET status = ?
             WHERE id = ?;
             """;
 
