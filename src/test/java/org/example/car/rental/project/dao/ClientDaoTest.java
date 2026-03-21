@@ -1,15 +1,14 @@
 package org.example.car.rental.project.dao;
 
-import org.assertj.core.api.Assertions;
 import org.example.car.rental.project.ClientIntegrationTestBase;
 import org.example.car.rental.project.entity.Client;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.example.car.rental.project.testdata.ClientTestData.VALID_USER;
-import static org.mockito.BDDMockito.then;
 
 public class ClientDaoTest extends ClientIntegrationTestBase {
 
@@ -30,7 +29,11 @@ public class ClientDaoTest extends ClientIntegrationTestBase {
     @Test
     @Tag("findByEmailAndPassword")
     void shouldReturnExistingPersonWithCorrectData() {
-//        todo
+        assertThat(clientDao.findByEmailAndPassword("ivan@gmail.com", "111"))
+                .isPresent()
+                .get()
+                .extracting(Client::getEmail, Client::getPassword, Client::getPassportNumber)
+                .containsExactly("ivan@gmail.com", "111", "AA123456");
     }
 
     @Test
