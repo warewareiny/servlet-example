@@ -1,24 +1,24 @@
 package org.example.car.rental.project.dao;
 
-import org.example.car.rental.project.util.ConnectionManager;
+import org.example.car.rental.project.CarIntegrationTestBase;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+public class CarDaoTest extends CarIntegrationTestBase {
 
-public class CarDaoTest {
+    private final CarDao carDao = CarDao.getInstance();
 
     @Test
     @Tag("delete")
     void shouldReturnTrueIfDeleteExistingCar() {
-//        todo
+        assertThat(carDao.delete(1L)).isTrue();
     }
 
     @Test
     @Tag("delete")
-    void shouldReturnFalseIfDeleteIncorrectCar() {
+    void shouldReturnFalseIfDeleteCarWithIncorrectId() {
 //        todo
     }
 

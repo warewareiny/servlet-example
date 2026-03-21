@@ -11,7 +11,7 @@ public abstract class CarIntegrationTestBase {
     private static final String CREATE_SQL = """
             CREATE TABLE IF NOT EXISTS car
             (
-                id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                id BIGSERIAL PRIMARY KEY,
                 brand VARCHAR(64),
                 model VARCHAR(64),
                 production_year INT,
