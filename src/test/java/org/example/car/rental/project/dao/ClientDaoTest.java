@@ -5,8 +5,6 @@ import org.example.car.rental.project.entity.Client;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.example.car.rental.project.testdata.ClientTestData.VALID_USER;
 
@@ -39,6 +37,8 @@ public class ClientDaoTest extends ClientIntegrationTestBase {
     @Test
     @Tag("findByEmailAndPassword")
     void shouldReturnEmptyOptionalIfPasswordOrEmailIsIncorrect() {
-//        todo
+        assertThat(clientDao.findByEmailAndPassword("incorrect", "111")).isEmpty();
+        assertThat(clientDao.findByEmailAndPassword("ivan@gmail.com", "incorrect")).isEmpty();
+        assertThat(clientDao.findByEmailAndPassword("incorrect", "incorrect")).isEmpty();
     }
 }
