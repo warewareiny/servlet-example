@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.example.car.rental.project.testdata.CarTestData.VALID_CAR;
 
 public class CarDaoTest extends CarIntegrationTestBase {
 
@@ -39,7 +40,10 @@ public class CarDaoTest extends CarIntegrationTestBase {
     @Test
     @Tag("save")
     void shouldSaveCar() {
-//        todo
+        Car savedCar = carDao.save(VALID_CAR);
+        assertThat(savedCar).isNotNull();
+        assertThat(savedCar).extracting(Car::getBrand, Car::getProductionYear, Car::getModel)
+                .containsExactly(VALID_CAR.getBrand(), VALID_CAR.getProductionYear(), VALID_CAR.getModel());
     }
 
     @Test
